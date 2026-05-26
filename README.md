@@ -104,7 +104,7 @@ Open your browser at: **http://127.0.0.1:8000**
 
 ---
 
-## Folder Structure
+## Project Structure
 
 ```
 attendwise/
@@ -178,9 +178,21 @@ attendwise/
 
 ## Screenshots
 
-_(Add screenshots of the dashboard, mark-attendance page, and reports page here)_
+### Login Page
+![Login](screenshots/login.png)
 
----
+### Admin Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Attendance Reports
+![Reports](screenshots/reports.png)
+
+## 👨‍💻 Author
+
+### Sohan Saha
+Computer Science Engineering (IoT & Cybersecurity)
+Heritage Institute of Technology
+
 
 ## License
 
