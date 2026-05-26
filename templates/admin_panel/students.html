@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Manage Students{% endblock %}
+{% block page_title %}Manage Students{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <form class="d-flex gap-2" method="GET">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search students..." style="width:260px;">
+    <button class="btn-primary-aw"><i class="bi bi-search"></i></button>
+  </form>
+  <a href="{% url 'add_student' %}" class="btn-primary-aw"><i class="bi bi-plus-lg"></i> Add Student</a>
+</div>
+
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Name</th><th>Roll No</th><th>Enrollment No</th><th>Class</th><th>Attendance</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr data-searchable>
+            <td>{{ forloop.counter }}</td>
+            <td>
+              <div class="fw-600">{{ student.user.get_full_name }}</div>
+              <div class="text-muted" style="font-size:12px;">{{ student.user.email }}</div>
+            </td>
+            <td><code>{{ student.roll_number }}</code></td>
+            <td>{{ student.enrollment_number }}</td>
+            <td>{{ student.classroom|default:'—' }}</td>
+            <td>
+              {% with pct=student.attendance_percentage %}
+                <div class="d-flex align-items-center gap-2">
+                  <div class="att-progress flex-grow-1" style="width:80px">
+                    <div class="att-progress-bar {% if pct >= 75 %}high{% elif pct >= 50 %}medium{% else %}low{% endif %}"
+                         style="width:{{ pct }}%"></div>
+                  </div>
+                  <small class="{% if pct < 75 %}text-danger fw-600{% else %}text-success{% endif %}">{{ pct }}%</small>
+                </div>
+              {% endwith %}
+            </td>
+            <td>
+              <div class="d-flex gap-2">
+                <a href="{% url 'edit_student' student.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'delete_student' student.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-center py-4 text-muted">No students found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

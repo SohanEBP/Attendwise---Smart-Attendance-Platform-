@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Attendance Reports{% endblock %}
+{% block page_title %}Attendance Reports{% endblock %}
+{% block content %}
+
+<!-- Filter Form -->
+<div class="aw-card mb-4">
+  <div class="card-header"><h5><i class="bi bi-funnel me-2"></i>Filter Records</h5></div>
+  <div class="card-body">
+    <form method="GET" class="row g-3 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label">Class</label>{{ form.classroom }}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Subject</label>{{ form.subject }}
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">From Date</label>{{ form.start_date }}
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">To Date</label>{{ form.end_date }}
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn-primary-aw w-100 justify-content-center"><i class="bi bi-search"></i> Filter</button>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Search Student</label>
+        <div class="row g-2">
+          <div class="col-md-4">{{ form.student_name }}</div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Export Buttons -->
+<div class="d-flex gap-2 mb-3">
+  <a href="{% url 'export_csv' %}?{{ request.GET.urlencode }}" class="btn-outline-aw">
+    <i class="bi bi-filetype-csv"></i> Export CSV
+  </a>
+  <a href="{% url 'export_pdf' %}?{{ request.GET.urlencode }}" class="btn-outline-aw">
+    <i class="bi bi-filetype-pdf"></i> Export PDF
+  </a>
+  <span class="text-muted align-self-center" style="font-size:13px;">{{ attendance|length }} records shown (max 200)</span>
+</div>
+
+<!-- Table -->
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>Date</th><th>Student</th><th>Roll No</th><th>Subject</th><th>Status</th><th>Teacher</th><th>Remarks</th></tr></thead>
+      <tbody>
+        {% for a in attendance %}
+          <tr>
+            <td>{{ a.date }}</td>
+            <td class="fw-600">{{ a.student.user.get_full_name }}</td>
+            <td><code>{{ a.student.roll_number }}</code></td>
+            <td>{{ a.subject.name }}</td>
+            <td><span class="status-badge badge-{{ a.status }}">{{ a.status|title }}</span></td>
+            <td>{{ a.teacher.user.get_full_name|default:'—' }}</td>
+            <td class="text-muted" style="font-size:13px;">{{ a.remarks|default:'—' }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-center py-4 text-muted">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

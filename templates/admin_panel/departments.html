@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Manage Departments{% endblock %}
+{% block page_title %}Manage Departments{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-4">
+  <a href="{% url 'add_department' %}" class="btn-primary-aw"><i class="bi bi-plus-lg"></i> Add Department</a>
+</div>
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>#</th><th>Name</th><th>Code</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for dept in departments %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="fw-600">{{ dept.name }}</td>
+            <td><code>{{ dept.code }}</code></td>
+            <td class="text-muted" style="font-size:13px;">{{ dept.description|truncatechars:60 }}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <a href="{% url 'edit_department' dept.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'delete_department' dept.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5" class="text-center py-4 text-muted">No departments yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

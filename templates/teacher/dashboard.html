@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}Teacher Dashboard{% endblock %}
+{% block page_title %}Teacher Dashboard{% endblock %}
+{% block content %}
+
+<!-- Stat Cards -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-xl-3 fade-in-up">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#e0e7ff;color:#4f46e5;">📚</div>
+      <div class="stat-number">{{ subjects.count }}</div>
+      <div class="stat-label">My Subjects</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3 fade-in-up delay-1">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#dcfce7;color:#16a34a;">✅</div>
+      <div class="stat-number">{{ today_present }}</div>
+      <div class="stat-label">Present Today</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3 fade-in-up delay-2">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fee2e2;color:#ef4444;">❌</div>
+      <div class="stat-number">{{ today_absent }}</div>
+      <div class="stat-label">Absent Today</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3 fade-in-up delay-3">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fef3c7;color:#d97706;">📋</div>
+      <div class="stat-number">{{ subject_stats|length }}</div>
+      <div class="stat-label">Classes Covered</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-4">
+  <!-- Chart -->
+  <div class="col-lg-8">
+    <div class="aw-card">
+      <div class="card-header">
+        <h5><i class="bi bi-bar-chart me-2" style="color:#4f46e5;"></i>Attendance – Last 7 Days</h5>
+        <a href="{% url 'mark_attendance' %}" class="btn-primary-aw" style="font-size:13px;padding:6px 14px;">
+          <i class="bi bi-plus"></i> Mark Attendance
+        </a>
+      </div>
+      <div class="card-body">
+        <canvas id="teacherChart" height="100"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subject Stats -->
+  <div class="col-lg-4">
+    <div class="aw-card h-100">
+      <div class="card-header"><h5><i class="bi bi-book me-2"></i>Subject Stats</h5></div>
+      <div class="card-body">
+        {% for stat in subject_stats %}
+          <div class="mb-3">
+            <div class="d-flex justify-content-between mb-1">
+              <span style="font-size:13px;font-weight:600;">{{ stat.subject.name }}</span>
+              <span style="font-size:13px;color:{% if stat.pct >= 75 %}#16a34a{% elif stat.pct >= 50 %}#d97706{% else %}#dc2626{% endif %};">{{ stat.pct }}%</span>
+            </div>
+            <div class="att-progress">
+              <div class="att-progress-bar {% if stat.pct >= 75 %}high{% elif stat.pct >= 50 %}medium{% else %}low{% endif %}"
+                   style="width:{{ stat.pct }}%"></div>
+            </div>
+            <div class="text-muted mt-1" style="font-size:11px;">{{ stat.present }} / {{ stat.total }} classes</div>
+          </div>
+        {% empty %}
+          <p class="text-muted text-center py-3">No attendance data yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Attendance -->
+<div class="aw-card">
+  <div class="card-header">
+    <h5><i class="bi bi-clock-history me-2"></i>Recent Records</h5>
+    <a href="{% url 'teacher_attendance_records' %}" class="btn-outline-aw" style="font-size:12px;padding:4px 12px;">View All</a>
+  </div>
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>Date</th><th>Student</th><th>Subject</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for r in recent %}
+          <tr>
+            <td>{{ r.date }}</td>
+            <td class="fw-600">{{ r.student.user.get_full_name }}</td>
+            <td>{{ r.subject.name }}</td>
+            <td><span class="status-badge badge-{{ r.status }}">{{ r.status|title }}</span></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="text-center py-4 text-muted">No records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+const ctx = document.getElementById('teacherChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{ chart_labels|safe }},
+    datasets: [{
+      label: 'Present', data: {{ chart_present|safe }},
+      borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,.1)',
+      borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#4f46e5'
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Attendance Records{% endblock %}
+{% block page_title %}My Attendance Records{% endblock %}
+{% block content %}
+<div class="aw-card mb-4">
+  <div class="card-header"><h5><i class="bi bi-funnel me-2"></i>Filter</h5></div>
+  <div class="card-body">
+    <form method="GET" class="row g-3 align-items-end">
+      <div class="col-md-4"><label class="form-label">Subject</label>{{ form.subject }}</div>
+      <div class="col-md-3"><label class="form-label">From</label>{{ form.start_date }}</div>
+      <div class="col-md-3"><label class="form-label">To</label>{{ form.end_date }}</div>
+      <div class="col-md-2"><button type="submit" class="btn-primary-aw w-100 justify-content-center"><i class="bi bi-search"></i> Filter</button></div>
+    </form>
+  </div>
+</div>
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>Date</th><th>Student</th><th>Roll No</th><th>Subject</th><th>Status</th><th>Remarks</th></tr></thead>
+      <tbody>
+        {% for r in records %}
+          <tr>
+            <td>{{ r.date }}</td>
+            <td class="fw-600">{{ r.student.user.get_full_name }}</td>
+            <td><code>{{ r.student.roll_number }}</code></td>
+            <td>{{ r.subject.name }}</td>
+            <td><span class="status-badge badge-{{ r.status }}">{{ r.status|title }}</span></td>
+            <td class="text-muted">{{ r.remarks|default:'—' }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="text-center py-4 text-muted">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

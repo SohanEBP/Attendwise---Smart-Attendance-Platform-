@@ -1,0 +1,124 @@
+{% extends 'base_public.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<section class="hero-section">
+  <div class="container py-5">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6 text-white">
+        <div class="mb-3 px-3 py-2 rounded-pill d-inline-block" style="font-size:13px; background:rgba(255,255,255,0.18); color:#fff; font-weight:600; border: 1px solid rgba(255,255,255,0.35);">
+        🎓 Smart Attendance Platform
+       </div>
+        <h1 class="display-4 fw-800 mb-4" style="line-height:1.2;">
+          Manage Attendance <span style="color:#a5b4fc;">Smarter,</span> Not Harder
+        </h1>
+        <p class="fs-5 mb-5" style="color:rgba(255,255,255,.75);">
+          AttendWise is a modern, role-based attendance management platform for colleges and schools — with real-time analytics, smart alerts, and beautiful reports.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 fw-600" style="border-radius:10px;color:#4f46e5;">
+            Get Started Free
+          </a>
+          <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4" style="border-radius:10px;">
+            Login
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="p-4 rounded-3 text-center" style="background:rgba(255,255,255,.12);">
+              <div class="fs-1 fw-800 text-white">{{ stats.students }}</div>
+              <div style="color:rgba(255,255,255,.7);font-size:14px;">Students</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-3 text-center" style="background:rgba(255,255,255,.12);">
+              <div class="fs-1 fw-800 text-white">{{ stats.teachers }}</div>
+              <div style="color:rgba(255,255,255,.7);font-size:14px;">Teachers</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-3 text-center" style="background:rgba(255,255,255,.12);">
+              <div class="fs-1 fw-800 text-white">{{ stats.subjects }}</div>
+              <div style="color:rgba(255,255,255,.7);font-size:14px;">Subjects</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 rounded-3 text-center" style="background:rgba(255,255,255,.12);">
+              <div class="fs-1 fw-800 text-white">{{ stats.classes }}</div>
+              <div style="color:rgba(255,255,255,.7);font-size:14px;">Classes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-5 mt-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-800 fs-1">Everything you need</h2>
+      <p class="text-muted fs-5">Powerful tools for admins, teachers, and students</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 fade-in-up">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#e0e7ff;color:#4f46e5;">📊</div>
+          <h5 class="fw-700">Real-time Analytics</h5>
+          <p class="text-muted">Interactive Chart.js dashboards showing attendance trends, subject-wise stats, and monthly comparisons.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-1">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#dcfce7;color:#16a34a;">✅</div>
+          <h5 class="fw-700">Quick Attendance Marking</h5>
+          <p class="text-muted">Teachers can mark attendance for an entire class in seconds with bulk present/absent actions.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-2">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#fef3c7;color:#d97706;">⚠️</div>
+          <h5 class="fw-700">Low Attendance Alerts</h5>
+          <p class="text-muted">Automatic alerts when a student's attendance drops below 75%, helping prevent academic issues.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#fce7f3;color:#db2777;">📥</div>
+          <h5 class="fw-700">Export Reports</h5>
+          <p class="text-muted">Download attendance reports as CSV or PDF. Students can download their own report anytime.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-1">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#e0f2fe;color:#0284c7;">🔐</div>
+          <h5 class="fw-700">Role-based Access</h5>
+          <p class="text-muted">Separate dashboards and permissions for Admins, Teachers, and Students.</p>
+        </div>
+      </div>
+      <div class="col-md-4 fade-in-up delay-2">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#f3e8ff;color:#9333ea;">📱</div>
+          <h5 class="fw-700">Fully Responsive</h5>
+          <p class="text-muted">Works beautifully on desktop, tablet, and mobile. Built with Bootstrap 5.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);">
+  <div class="container text-center text-white py-3">
+    <h2 class="fw-800 fs-1 mb-3">Ready to get started?</h2>
+    <p class="fs-5 mb-4" style="color:rgba(255,255,255,.8);">Join AttendWise today. Free, easy to set up.</p>
+    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 fw-600" style="color:#4f46e5;border-radius:10px;">
+      Create Account
+    </a>
+  </div>
+</section>
+{% endblock %}

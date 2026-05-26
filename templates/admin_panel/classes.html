@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Manage Classes{% endblock %}
+{% block page_title %}Manage Classes{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-4">
+  <a href="{% url 'add_class' %}" class="btn-primary-aw"><i class="bi bi-plus-lg"></i> Add Class</a>
+</div>
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>#</th><th>Class Name</th><th>Section</th><th>Year</th><th>Department</th><th>Students</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for cls in classes %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="fw-600">{{ cls.name }}</td>
+            <td>{{ cls.section }}</td>
+            <td>Year {{ cls.year }}</td>
+            <td>{{ cls.department|default:'—' }}</td>
+            <td><span class="badge bg-primary-subtle text-primary">{{ cls.student_count }}</span></td>
+            <td>
+              <div class="d-flex gap-2">
+                <a href="{% url 'edit_class' cls.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'delete_class' cls.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-center py-4 text-muted">No classes yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

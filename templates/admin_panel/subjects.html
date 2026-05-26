@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Manage Subjects{% endblock %}
+{% block page_title %}Manage Subjects{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-4">
+  <a href="{% url 'add_subject' %}" class="btn-primary-aw"><i class="bi bi-plus-lg"></i> Add Subject</a>
+</div>
+<div class="aw-card">
+  <div class="card-body p-0">
+    <table class="aw-table">
+      <thead><tr><th>#</th><th>Name</th><th>Code</th><th>Class</th><th>Credits</th><th>Teachers</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for subject in subjects %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="fw-600">{{ subject.name }}</td>
+            <td><code>{{ subject.code }}</code></td>
+            <td>{{ subject.classroom|default:'—' }}</td>
+            <td>{{ subject.credits }}</td>
+            <td>{{ subject.teachers.count }}</td>
+            <td>
+              <div class="d-flex gap-2">
+                <a href="{% url 'edit_subject' subject.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'delete_subject' subject.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="text-center py-4 text-muted">No subjects yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
