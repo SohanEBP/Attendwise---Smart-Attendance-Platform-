@@ -176,17 +176,6 @@ attendwise/
 
 ---
 
-## Screenshots
-
-### Login Page
-![Login](screenshots/login.png)
-
-### Admin Dashboard
-![Dashboard](screenshots/dashboard.png)
-
-### Attendance Reports
-![Reports](screenshots/reports.png)
-
 ## 👨‍💻 Author
 
 ### Sohan Saha
